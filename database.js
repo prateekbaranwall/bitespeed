@@ -7,4 +7,4 @@ module.exports = mysql.createConnection({
     user: process.env.SQL_USER,
     password: process.env.SQL_PASSWORD,
     database: 'bitespeed'
-})
+}).promise()
