@@ -13,8 +13,16 @@ app.get('/', (req, res) => {
   res.send('hello world')
 })
 
-const getData = async(phoneNumber, email)=> {
-   return await db.query(` select * from contact where phoneNumber = ? OR email = ?`,[phoneNumber, email]);
+const getData = async (phoneNumber, email)=> {
+   return await db.query(` select * from contact where phoneNumber = ? OR email = ? order by createdAt ASC`,[phoneNumber, email]);
+}
+
+const updateLinkPrecedence = async(id) => {
+    try{
+        await db.query(`update contact set linkPrecedence='secondary' where id=?`, [id]);
+    } catch(e) {
+        console.log(e);
+    }
 }
 
 app.post('/identity', async(req,res) => {
@@ -26,10 +34,16 @@ app.post('/identity', async(req,res) => {
     }
     try {
         const data = await getData(phoneNumber, email);
+        // console.log(data[0]);
         if(data[0].length===0) {
              db.query(`insert into contact (phoneNumber, email, linkPrecedence) 
             values(?, ?, ?)`, [phoneNumber, email, "primary"]);
         } else {
+            let flag=0;
+            data[0].forEach(element=>{
+                if(element.linkPrecedence=='primary' && flag===0) flag=1;
+                else if(flag===1 && element.linkPrecedence=='primary' ) updateLinkPrecedence(element.id);
+            })
             db.query(`insert into contact (phoneNumber, email, linkPrecedence, linkedId) 
             values(?, ?, ?, ?)`, [phoneNumber, email, "secondary", data[0][0].id]);
         }
