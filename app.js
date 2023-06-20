@@ -13,17 +13,27 @@ app.get('/', (req, res) => {
   res.send('hello world')
 })
 
+const getData = async(phoneNumber, email)=> {
+   return await db.query(` select * from contact where phoneNumber = ? OR email = ?`,[phoneNumber, email]);
+}
+
 app.post('/identity', async(req,res) => {
-    console.log(req.body);
     const { email, phoneNumber } = req.body;
     if(!email && !phoneNumber) {
         return res.status(400).send({
-            message: 'This is an error!'
+            message: 'Please provide email or phoneNumber in body'
          });
     }
     try {
-        db.query(`insert into contact (phoneNumber, email) 
-        values(?, ?)`, [phoneNumber, email]);
+        const data = await getData(phoneNumber, email);
+        if(data[0].length===0) {
+             db.query(`insert into contact (phoneNumber, email, linkPrecedence) 
+            values(?, ?, ?)`, [phoneNumber, email, "primary"]);
+        } else {
+            db.query(`insert into contact (phoneNumber, email, linkPrecedence, linkedId) 
+            values(?, ?, ?, ?)`, [phoneNumber, email, "secondary", data[0][0].id]);
+        }
+       
     } catch(err) {
         return res.status(400).send({
             message: 'Error in inserting data'
