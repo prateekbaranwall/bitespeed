@@ -20,3 +20,20 @@ SQL_SERVER=localhost
 SQL_ENCRYPT=false
 ```
 Change it accordingly
+
+start the server using 
+```bash
+npm start
+```
+
+to create request copy the below curl and change the body accordingly
+```bash
+curl --location 'localhost:3000/identity' \
+--header 'Content-Type: application/json' \
+--data '{
+	
+"email":"123@gmail.com",
+"phoneNumber":"1234561"
+
+}'
+```
