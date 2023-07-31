@@ -10,6 +10,11 @@ cd bitespeed
 
 ## Installation
 
+In MySQL create a database with name bitespeed
+```bash
+create database bitespeed
+```
+
 use npm for installation
 
 ```bash
