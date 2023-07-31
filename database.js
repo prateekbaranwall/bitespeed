@@ -7,13 +7,13 @@ const con = mysql.createConnection({
     user: process.env.SQL_USER, 
     password: process.env.SQL_PASSWORD, 
     database: 'bitespeed' 
-}).promise();
+});
      
 con.connect(function (err) { 
     if (err) { 
         console.log(err); 
     } else { 
-        const sql = 'CREATE TABLE contact (id int, phoneNumber varchar(20), email varchar(100), linkedId int, linkPrecedence varchar(20))'; 
+        const sql = 'CREATE TABLE contact (id int PRIMARY KEY AUTO_INCREMENT, phoneNumber varchar(20), email varchar(100), linkedId int, linkPrecedence varchar(20))'; 
         con.query(sql, (err, result) => { 
             if (err) { 
                 // console.log(err) 
@@ -23,4 +23,4 @@ con.connect(function (err) {
         }) 
     } 
 })
-module.exports = con;
+module.exports = con.promise();

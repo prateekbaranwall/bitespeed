@@ -46,7 +46,7 @@ app.post('/identity', async(req,res) => {
                     secondaryContactIds: [],
                 }
             }
-            res.status(200).send(finalData);
+            return res.status(200).send(finalData);
         } else {
 
             let primary;
@@ -105,7 +105,7 @@ app.post('/identity', async(req,res) => {
                     secondaryContactIds: secondaryIdArray,
                 }
             }
-            res.status(200).send(finalData);
+           return res.status(200).send(finalData);
         }
         
     } catch(err) {
@@ -113,7 +113,7 @@ app.post('/identity', async(req,res) => {
             message: 'Error in inserting data'
          });
     }
-    res.send('hurray!!!! message sent');
+    return res.send('hurray!!!! message sent');
 })
 
 app.listen(3000, ()=> {
