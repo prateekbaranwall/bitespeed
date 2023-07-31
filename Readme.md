@@ -15,7 +15,7 @@ In MySQL create a database with name bitespeed
 create database bitespeed
 ```
 
-use npm for installation
+use npm for installation of packages
 
 ```bash
 npm install
