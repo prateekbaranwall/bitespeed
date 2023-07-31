@@ -13,7 +13,7 @@ con.connect(function (err) {
     if (err) { 
         console.log(err); 
     } else { 
-        const sql = 'CREATE TABLE contact (id int, name varchar(20), email varchar(100), linkedId int, linkPrecedence varchar(20))'; 
+        const sql = 'CREATE TABLE contact (id int, phoneNumber varchar(20), email varchar(100), linkedId int, linkPrecedence varchar(20))'; 
         con.query(sql, (err, result) => { 
             if (err) { 
                 // console.log(err) 
